@@ -14,5 +14,6 @@ def escolha_jogos():
     elif escolha == 2:
         print("Jogo da adivinhação")
         adivinhacao.jogo()
+        
 if __name__ == "__main__":
     escolha_jogos()
