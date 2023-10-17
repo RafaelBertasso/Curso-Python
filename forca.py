@@ -1,34 +1,49 @@
+import random
 
 def jogo():
     print("-"*40)
     print("Bem vindo ao jogo da Forca!")
     print("-"*40)
 
-    palavra = input("Digite uma palavra: ")
-    letras_usuario = []
-    chances = 6
-    ganhou = False
-    while True:
-        for letra in palavra:
-            if letra.lower() in letras_usuario:
-                print(letra, end=" ")
-            else:
-                print("_", end=" ")
-        print(f"Você tem {chances} chances")
-        tentativa = input("Escolha uma letra para adivinhar: ")
-        letras_usuario.append(tentativa.lower())
-        if tentativa.lower() not in palavra.lower():
-            chances -= 1
-        ganhou = True
-        for letra in palavra:
-            if letra.lower() not in letras_usuario:
-                ganhou = False
-        if chances == 0 or ganhou:
-            break
-    if ganhou:
-        print(f"Parabéns, você ganhou. A palavra era: {palavra}")
+    palavras = []
+    with open ("palavras.txt") as arquivo:
+        for linha in arquivo:
+            linha = linha.strip()
+            palavras.append(linha)
+    numero = random.randrange(0, len(palavras))
+    palavra_secreta = palavras[numero].upper()
+    letras_acertadas = ["_" for letra in palavra_secreta]
+
+    enforcou = False
+    acertou = False
+    erros = 0
+
+    print(letras_acertadas)
+
+    while(not enforcou and not acertou):
+
+        chute = input("Qual letra? ")
+        chute = chute.strip().upper()
+
+        if(chute in palavra_secreta):
+            index = 0
+            for letra in palavra_secreta:
+                if(chute == letra):
+                    letras_acertadas[index] = letra
+                index += 1
+        else:
+            erros += 1
+
+        enforcou = erros == 6
+        acertou = "_" not in letras_acertadas
+        print(letras_acertadas)
+
+
+    if(acertou):
+        print("Você ganhou!!")
     else:
-        print(f"Você perdeu! A palavra era: {palavra}")
+        print("Você perdeu!!")
+    print("Fim do jogo")
 
 
 
